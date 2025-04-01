@@ -1,0 +1,15 @@
+services:
+  - type: web
+    plan: free
+    name: app
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: products_db
+          property: connectionString
+
+databases:
+  - name: mi-products_db
+    plan: free
