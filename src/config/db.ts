@@ -1,19 +1,18 @@
-const { Sequelize } = require("sequelize");
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 
-const my_instance = new Sequelize(
-	"products_db",
-	"postgres",
-	"kevin",
+dotenv.config();
+
+const sequelize = new Sequelize(
+	process.env.NODE_ENV === "production" ? process.env.DATABASE_URL : process.env.DATABASE_TEST_URL,
 	{
-		host: "localhost",
 		dialect: "postgres",
+		dialectOptions: {
+			ssl: false,
+			connectTimeout: 5000,
+		},
+		logging: console.log,
 	}
 );
 
-const Products = require("../models/Products");
-
-console.log(Products);
-
-my_instance.sync({ force: true });
-
-module.exports = { my_instance, Products };
+export { sequelize };
