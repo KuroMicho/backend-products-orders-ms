@@ -1,21 +1,21 @@
 // npm install @apollo/server express graphql cors
+import http from "http";
+
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import express from "express";
-import http from "http";
 import cors from "cors";
+import express from "express";
 
-import typeDefs from "./schemas/index.js";
-import resolvers from "./resolvers/index.js";
-import { sequelize } from "./config/db.js";
+import { sequelize } from "./config/db";
+import resolvers from "./resolvers/index";
+import typeDefs from "./schemas/index";
 
 const app = express();
 const httpServer = http.createServer(app);
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
-	introspection: true,
 	plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 

@@ -7,7 +7,11 @@ module.exports = [
 		files: ["**/*.ts"], // Aplica esta configuración solo a archivos TypeScript
 		languageOptions: {
 			parser: tsParser, // Usa el parser de TypeScript
-			ecmaVersion: "latest", // Usa la última versión de ECMAScript
+			parserOptions: {
+				ecmaVersion: "latest", // Usa la última versión de ECMAScript
+				sourceType: "script",
+				project: "./tsconfig.json", // Especifica tu tsconfig
+			},
 		},
 		plugins: {
 			"@typescript-eslint": tsEslint,
@@ -25,10 +29,13 @@ module.exports = [
 					},
 				},
 			],
+			"@typescript-eslint/consistent-type-imports": "error", // Regla recomendada adicional
 		},
 		settings: {
 			"import/resolver": {
-				typescript: true,
+				typescript: {
+					alwaysTryTypes: true, // Intenta siempre resolver tipos TypeScript
+				},
 			},
 		},
 	},

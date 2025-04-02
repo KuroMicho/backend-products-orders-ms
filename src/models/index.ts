@@ -1,6 +1,7 @@
-import { sequelize } from "../config/db.js";
-import _Product from "./products.js";
-import _Order from "./orders.js";
+import { sequelize } from "../config/db";
+
+import _Order from "./orders";
+import _Product from "./products";
 
 const Product = _Product(sequelize);
 const Order = _Order(sequelize);

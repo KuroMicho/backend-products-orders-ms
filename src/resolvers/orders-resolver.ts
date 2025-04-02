@@ -1,5 +1,5 @@
-import { Order } from "../models/index.js";
-import { Product } from "../models/index.js";
+import { Order } from "../models/index";
+import { Product } from "../models/index";
 
 const ordersResolver = {
 	Query: {

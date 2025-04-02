@@ -5,35 +5,34 @@
 	"name": "backend-products-orders",
 	"version": "1.0.0",
 	"main": "app.js",
-	"type": "module",
 	"scripts": {
-		"lint": "eslint --fix",
+		"lint": "eslint . --ext .ts",
 		"compile": "tsc",
-		"start": "npm run compile && node ./dist/app.js",
-		"dev": "nodemon"
+		"start": "node ./dist/app.js",
+		"dev": "nodemon --exec ts-node ./src/app.ts"
 	},
 	"keywords": [],
 	"dependencies": {
 		"@apollo/server": "^4.11.3",
 		"@graphql-tools/merge": "^9.0.24",
+		"dotenv": "^16.4.7",
 		"express": "^4.21.2",
 		"graphql": "^16.10.0",
 		"graphql-tag": "^2.12.6",
 		"pg": "^8.14.1",
 		"pg-hstore": "^2.3.4",
-		"sequelize": "^6.37.6"
+		"sequelize": "^6.37.6",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.8.2"
 	},
 	"devDependencies": {
 		"@types/express": "^5.0.1",
 		"@types/node": "^22.13.14",
 		"@typescript-eslint/eslint-plugin": "^8.26.1",
 		"@typescript-eslint/parser": "^8.26.1",
-		"dotenv": "^16.4.7",
 		"eslint": "^9.22.0",
 		"eslint-import-resolver-typescript": "^4.1.1",
 		"eslint-plugin-import": "^2.31.0",
-		"nodemon": "^3.1.9",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.8.2"
+		"nodemon": "^3.1.9"
 	}
 }

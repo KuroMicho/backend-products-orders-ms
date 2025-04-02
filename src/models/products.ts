@@ -40,7 +40,7 @@ export default function (sequelize) {
 				allowNull: true,
 				validate: {
 					isUrl: {
-						msg: "La imagen debe ser una URL válida",
+						msg: "La imagen debe ser una URL valida",
 					},
 				},
 			},

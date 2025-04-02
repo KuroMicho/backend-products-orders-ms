@@ -1,13 +1,21 @@
-# Usa una imagen base ligera de Node
 FROM node:18-alpine
 
-WORKDIR /src
+WORKDIR /app
 
-COPY package*.json ./
+# 1. Copiar solo los archivos esenciales primero
+COPY package.json tsconfig.json ./
+
+# 2. Instalar todas las dependencias (incluyendo devDependencies)
+RUN npm install --include=dev
+
+# 3. Copiar toda la estructura de directorios
 COPY . .
 
-RUN npm install
+# 4. Compilación TypeScript con verificación previa
+RUN npm run compile
+
+# 5. Limpieza para producción (opcional)
+RUN npm prune --omit=dev
 
 EXPOSE 4000
-
-CMD ["npm", "start"]
+CMD ["node", "dist/app.js"]
