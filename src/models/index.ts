@@ -1,12 +1,23 @@
 import { sequelize } from "../config/db";
 
+import _OrderProduct from "./orderProduct";
 import _Order from "./orders";
 import _Product from "./products";
 
+const OrderProduct = _OrderProduct(sequelize);
 const Product = _Product(sequelize);
 const Order = _Order(sequelize);
 
-Order.belongsTo(Product, { foreignKey: "productId", as: "product" });
-Product.hasMany(Order, { foreignKey: "productId", as: "orders" });
+Order.belongsToMany(Product, {
+	through: OrderProduct,
+	foreignKey: "orderId",
+	as: "products",
+});
 
-export { Product, Order };
+Product.belongsToMany(Order, {
+	through: OrderProduct,
+	foreignKey: "productId",
+	as: "orders",
+});
+
+export { OrderProduct, Product, Order };

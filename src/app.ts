@@ -1,4 +1,3 @@
-// npm install @apollo/server express graphql cors
 import http from "http";
 
 import { ApolloServer } from "@apollo/server";
@@ -8,8 +7,10 @@ import cors from "cors";
 import express from "express";
 
 import { sequelize } from "./config/db";
+import { AuthAPI } from "./data/auth-api";
 import resolvers from "./resolvers/index";
 import typeDefs from "./schemas/index";
+import authentication from "./utils/authentication";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -38,7 +39,16 @@ initializeDB();
 		cors(),
 		express.json(),
 		expressMiddleware(server, {
-			context: async ({ req }) => ({ req }),
+			context: async ({ req }) => {
+				const { sub } = await authentication(req);
+				const { cache } = server;
+				return {
+					sub,
+					dataSources: {
+						AuthAPI: new AuthAPI({ token: sub, cache }),
+					},
+				};
+			},
 		}) as unknown as express.RequestHandler
 	);
 

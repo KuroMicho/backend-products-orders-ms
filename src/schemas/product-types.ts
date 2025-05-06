@@ -1,9 +1,12 @@
 import { gql } from "graphql-tag";
 
 const productTypes = gql`
-	type Query {
-		allProducts: [Product!]!
-		productById(id: ID!): Product!
+	input ProductInput {
+		name: String!
+		description: String
+		username: String!
+		image: String
+		price: Float!
 	}
 
 	type Product {
@@ -17,14 +20,10 @@ const productTypes = gql`
 		updatedAt: String!
 	}
 
-	input ProductInput {
-		name: String!
-		description: String
-		username: String!
-		image: String
-		price: Float!
+	type Query {
+		allProducts: [Product!]!
+		productById(id: ID!): Product!
 	}
-
 
 	type Mutation {
 		createProduct(data: ProductInput!): Product!

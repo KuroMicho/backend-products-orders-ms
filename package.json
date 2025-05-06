@@ -6,13 +6,14 @@
 	"version": "1.0.0",
 	"main": "app.js",
 	"scripts": {
-		"lint": "eslint . --ext .ts",
+		"lint": "eslint . --ext .ts --fix",
 		"compile": "tsc",
 		"start": "node ./dist/app.js",
 		"dev": "nodemon --exec ts-node ./src/app.ts"
 	},
 	"keywords": [],
 	"dependencies": {
+		"@apollo/datasource-rest": "^6.4.1",
 		"@apollo/server": "^4.11.3",
 		"@graphql-tools/merge": "^9.0.24",
 		"dotenv": "^16.4.7",

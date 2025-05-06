@@ -4,15 +4,6 @@ export default function (sequelize) {
 	return sequelize.define(
 		"Order",
 		{
-			productId: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: "El productId es requerido",
-					},
-				},
-			},
 			name: {
 				type: DataTypes.STRING(100),
 				allowNull: false,
@@ -31,19 +22,6 @@ export default function (sequelize) {
 					},
 				},
 			},
-			quantity: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					min: {
-						args: [0],
-						msg: "La cantidad no puede ser negativa",
-					},
-					notNull: {
-						msg: "La cantidad es requerida",
-					},
-				},
-			},
 			status: {
 				type: DataTypes.ENUM("COMPLETED", "CANCELLED", "PENDING"),
 				defaultValue: "PENDING",
@@ -53,9 +31,6 @@ export default function (sequelize) {
 			tableName: "orders",
 			timestamps: true,
 			indexes: [
-				{
-					fields: ["productId"],
-				},
 				{
 					fields: ["username"],
 				},

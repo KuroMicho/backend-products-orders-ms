@@ -1,51 +1,59 @@
 import { gql } from "graphql-tag";
 
 const orderTypes = gql`
-	type Order {
-		id: ID!
-		productId: ID!
-		product: Product! # Relación con Product
-		name: String!
-		username: String!
-		quantity: Int!
-		status: OrderStatus!
-		createdAt: String!
-		updatedAt: String!
-	}
-
 	enum OrderStatus {
 		COMPLETED
 		CANCELLED
 		PENDING
 	}
 
-	input OrderInput {
-		productId: ID!
-		name: String!
-		username: String!
+	input ProductOrderInput {
+		id: ID!
 		quantity: Int!
-		status: OrderStatus = PENDING
 	}
 
-	input UpdateOrderInput {
-		productId: ID
-		name: String
-		username: String
-		quantity: Int
+	input OrderInput {
+		name: String!
+		products: [ProductOrderInput!]!
 		status: OrderStatus
 	}
 
+	type ProductInfo {
+		id: ID!
+		name: String!
+	}
+
+	type Units {
+		quantity: Int!
+		unitPrice: Float!
+		product: ProductInfo!
+	}
+
+	type Order {
+		id: ID!
+		name: String!
+		username: String!
+		status: OrderStatus!
+		total: Float!
+		units: [Units!]!
+		createdAt: String!
+		updatedAt: String!
+		user: User
+	}
+
+	type User {
+		id: ID!
+		username: String!
+		email: String
+	}
+
 	type Query {
-		# Order queries
-		allOrders: [Order!]!
-		orderById(id: ID!): Order
-		ordersByUser(username: String!): [Order!]!
+		ordersByUsername(username: String!): [Order!]!
 	}
 
 	type Mutation {
-		# Order mutations
 		createOrder(data: OrderInput!): Order!
-		updateOrder(id: ID!, data: UpdateOrderInput!): Order!
+		updateOrder(id: ID!, data: OrderInput!): Order!
 		deleteOrder(id: ID!): Boolean!
 	}
 `;
