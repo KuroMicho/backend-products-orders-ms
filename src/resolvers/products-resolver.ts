@@ -34,18 +34,21 @@ const productsResolver = {
 			}
 		},
 
-		updateProduct: async (_, { id, input }, { sub, dataSources }) => {
+		updateProduct: async (_, { id, data }, { sub, dataSources }) => {
 			await validateUser(sub, dataSources);
 
-			const [affectedRows] = await Product.update(input, {
-				where: { id },
+			const productId = parseInt(id, 10);
+
+			const [affectedRows, updatedRecords] = await Product.update(data, {
+				where: { id: productId },
+				returning: true,
 			});
 
 			if (affectedRows === 0) {
 				throw { message: "Producto no encontrado", code: 404 };
 			}
 
-			return await Product.findByPk(id);
+			return updatedRecords[0];
 		},
 
 		deleteProduct: async (_, { id }, { sub, dataSources }) => {
@@ -64,7 +67,6 @@ const productsResolver = {
 	},
 };
 
-// Helper
 async function validateUser(username: string | undefined, dataSources: any) {
 	if (!username) throw { message: "Autenticación requerida", code: 401 };
 

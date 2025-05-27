@@ -14,12 +14,16 @@ const authResolver = {
 			return await dataSources.AuthAPI.signIn(userInput);
 		},
 
+		signOut: async (_, { usernameInput }, { dataSources }) => {
+			return await dataSources.AuthAPI.signOut(usernameInput);
+		},
+
 		refreshToken: async (_, { refreshInput }, { dataSources }) => {
 			return await dataSources.AuthAPI.refreshToken(refreshInput);
 		},
 
-		deleteUser: async (_, { username }, { dataSources, token }) => {
-			if (username == token) return await dataSources.AuthAPI.deleteUser(username);
+		validateToken: async (_, { tokenInput }, { dataSources }) => {
+			return await dataSources.AuthAPI.validateToken(tokenInput);
 		},
 	},
 };

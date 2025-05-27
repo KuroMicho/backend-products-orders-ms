@@ -14,6 +14,20 @@ const ordersResolver = {
 	Mutation: {
 		createOrder: async (_, { data }, { sub }) => {
 			try {
+				for (const item of data.products) {
+					const product = await Product.findByPk(item.id);
+
+					if (!product) {
+						throw new Error(`Producto con ID ${item.id} no encontrado.`);
+					}
+
+					if (product.stock < item.quantity) {
+						throw new Error(
+							`No hay suficiente stock para el producto ${product.name}. Cantidad disponible: ${product.stock}`
+						);
+					}
+				}
+
 				const order = await Order.create({
 					...data,
 					username: sub,
@@ -22,16 +36,14 @@ const ordersResolver = {
 				for (const item of data.products) {
 					const product = await Product.findByPk(item.id);
 
-					if (!product) {
-						throw new Error(`Producto con ID ${item.id} no encontrado`);
-					}
-
 					await order.addProduct(product, {
 						through: {
 							quantity: item.quantity,
 							unitPrice: product.price,
 						},
 					});
+
+					await product.update({ stock: product.stock - item.quantity });
 				}
 
 				return await Order.findByPk(order.id);
@@ -40,22 +52,12 @@ const ordersResolver = {
 			}
 		},
 
-		/* updateOrder: async (_, { id, data }) => {
-			const [affectedCount] = await Order.update(data, {
-				where: { id },
-			});
-			if (affectedCount > 0) {
-				return await Order.findByPk(id);
-			}
-			return null;
-		},
-
 		deleteOrder: async (_, { id }) => {
 			const deletedCount = await Order.destroy({
 				where: { id },
 			});
 			return deletedCount > 0;
-		}, */
+		},
 	},
 
 	Order: {

@@ -12,6 +12,14 @@ const authTypes = gql`
 		password: String!
 	}
 
+	input Token {
+		token: String!
+	}
+
+	input Username {
+		username: String!
+	}
+
 	input Refresh {
 		refreshToken: String!
 	}
@@ -21,6 +29,11 @@ const authTypes = gql`
 		token: String!
 	}
 
+	type ValidateTokenResponse {
+		isValid: Boolean
+		username: String
+	}
+
 	type RefreshTokenResponse {
 		accessToken: String!
 		refreshToken: String!
@@ -28,6 +41,10 @@ const authTypes = gql`
 	}
 
 	type SignUpResponse {
+		message: String!
+	}
+
+	type SignOutResponse {
 		message: String!
 	}
 
@@ -45,7 +62,8 @@ const authTypes = gql`
 		signUp(userInput: SignUp): SignUpResponse!
 		signIn(userInput: SignIn): SignInResponse!
 		refreshToken(refreshInput: Refresh!): RefreshTokenResponse!
-		deleteUser(userId: Int!): String!
+		validateToken(tokenInput: Token!): ValidateTokenResponse!
+		signOut(usernameInput: Username!): SignOutResponse!
 	}
 `;
 

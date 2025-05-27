@@ -58,6 +58,37 @@ export default function (sequelize) {
 					},
 				},
 			},
+			stock: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+				validate: {
+					min: {
+						args: [0],
+						msg: "El stock no puede ser negativo",
+					},
+					isInt: {
+						msg: "El stock debe ser un número entero",
+					},
+				},
+			},
+			size: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+				validate: {
+					min: {
+						args: [1],
+						msg: "El tamaño mínimo es 1 ml",
+					},
+					max: {
+						args: [100000],
+						msg: "El tamaño no puede exceder 100,000 ml (100L)",
+					},
+					isInt: {
+						msg: "El tamaño debe ser un número entero de mililitros",
+					},
+				},
+			},
 		},
 		{
 			tableName: "products",
@@ -72,6 +103,12 @@ export default function (sequelize) {
 				},
 				{
 					fields: ["price"],
+				},
+				{
+					fields: ["stock"],
+				},
+				{
+					fields: ["size"],
 				},
 			],
 		}

@@ -31,12 +31,17 @@ async function initializeDB() {
 
 initializeDB();
 
+const corsOptions = {
+	origin: "http://localhost:5173",
+	credentials: true,
+};
+
 (async () => {
 	await server.start();
 
 	app.use(
 		"/graphql",
-		cors(),
+		cors(corsOptions),
 		express.json(),
 		expressMiddleware(server, {
 			context: async ({ req }) => {

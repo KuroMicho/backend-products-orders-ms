@@ -16,7 +16,7 @@ export class AuthAPI extends RESTDataSource {
 	override willSendRequest(_path: string, request: AugmentedRequest) {
 		if (this.token) {
 			request.headers["Authorization"] = `Bearer ${this.token}`;
-		}		
+		}
 		request.headers["Content-Type"] = "application/json";
 	}
 
@@ -41,8 +41,18 @@ export class AuthAPI extends RESTDataSource {
 		return await this.post<any>("/api/v1/auth/signin", { body: credentials });
 	}
 
+	async signOut(data): Promise<any> {
+		const username = new Object(JSON.parse(JSON.stringify(data)));
+		return await this.post<any>("/api/v1/auth/signout", { body: username });
+	}
+
 	async refreshToken(data): Promise<any> {
-		const refresh = new Object(data);
+		const refresh = new Object(JSON.parse(JSON.stringify(data)));
 		return await this.post<any>("/api/v1/auth/refreshToken", { body: refresh });
+	}
+
+	async validateToken(data): Promise<any> {
+		const token = new Object(JSON.parse(JSON.stringify(data)));
+		return await this.post<any>("/api/v1/auth/validateToken", { body: token });
 	}
 }

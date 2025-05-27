@@ -7,17 +7,26 @@ const productTypes = gql`
 		username: String!
 		image: String
 		price: Float!
+		stock: Int!
+		size: Int!
 	}
 
 	type Product {
-		id: ID!
+		id: ID
 		name: String!
 		description: String
 		username: String!
 		image: String
 		price: Float!
+		stock: Int!
+		size: Int!
 		createdAt: String!
 		updatedAt: String!
+	}
+
+	type Deleted {
+		success: String!
+		message: String!
 	}
 
 	type Query {
@@ -28,7 +37,7 @@ const productTypes = gql`
 	type Mutation {
 		createProduct(data: ProductInput!): Product!
 		updateProduct(id: ID!, data: ProductInput!): Product!
-		deleteProduct(id: ID!): Boolean!
+		deleteProduct(id: ID!): Deleted!
 	}
 `;
 
